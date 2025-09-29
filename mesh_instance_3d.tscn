@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://cv7gbivwkaoio"]
+
+[ext_resource type="Texture2D" uid="uid://d1hgo5pqvrnqj" path="res://new_noise_texture_2d.tres" id="1_yvhtj"]
+
+[sub_resource type="Shader" id="Shader_aq2ne"]
+code = "shader_type spatial;
+
+uniform sampler2D heightmap : source_color;
+uniform float height_scale = 20.0;
+
+void vertex() {
+    // Each vertex has UV from PlaneMesh
+    vec2 uv = UV;
+    float h = texture(heightmap, uv).r; // red channel
+    VERTEX.y += h * height_scale;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aq2ne"]
+render_priority = 0
+shader = SubResource("Shader_aq2ne")
+shader_parameter/height_scale = 20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rho5k"]
+render_priority = 0
+shader = SubResource("Shader_aq2ne")
+shader_parameter/heightmap = ExtResource("1_yvhtj")
+shader_parameter/height_scale = 20.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_etjlb"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_rho5k")
+subdivide_width = 200
+subdivide_depth = 200
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_aq2ne")
+mesh = SubResource("PlaneMesh_etjlb")

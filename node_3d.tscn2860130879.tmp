@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8syn3rhj6s54"]
+
+[ext_resource type="PlaneMesh" uid="uid://cxmd4su1o0fo2" path="res://new_plane_mesh.tres" id="1_a202f"]
+[ext_resource type="Shader" uid="uid://gwuainbi3bb5" path="res://node_3d.gdshader" id="1_noarx"]
+[ext_resource type="Script" uid="uid://etge0htx4tlc" path="res://node_3d.gd" id="1_r3fl7"]
+[ext_resource type="Texture2D" uid="uid://d1hgo5pqvrnqj" path="res://new_noise_texture_2d.tres" id="2_a0tk4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a0tk4"]
+render_priority = 0
+shader = ExtResource("1_noarx")
+shader_parameter/heightmap = ExtResource("2_a0tk4")
+shader_parameter/height_scale = 20.0
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_r3fl7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00908681, -9.9754, -0.508195)
+material_override = SubResource("ShaderMaterial_a0tk4")
+mesh = ExtResource("1_a202f")
