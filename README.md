@@ -6,6 +6,7 @@ COMP 360 ON1 Assignments
 
 #### Generate 3D landscape
 - Sun Pak
+- Aniket Sandhu
 #### Generate 2D texture
 - Sho Okano
 - William Craske
@@ -21,4 +22,5 @@ COMP 360 ON1 Assignments
 #### Update discord documentation (meeting minutes, assignment clarifications, helpful tools) 
 - Sho Okano
 - Fahim Ar-Rashid
+- Aniket Sandhu
 
