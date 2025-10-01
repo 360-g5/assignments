@@ -14,7 +14,7 @@ COMP 360 ON1 Assignments
 - Fahim Ar-Rashid
 #### Record debugging/testing demo videos
 - Sho Okano, [Initial 2D Texture Creation](https://youtu.be/Hb5TNBVI_qE)
-- Aniket Sandhu, ![Smoothing Fix](assignments/assets)
+- Aniket Sandhu, ![Smoothing Fix](assets)
 #### Review pull requests
 - TBD
 #### Update project documentation (README.md, kanban board)
