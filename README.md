@@ -14,6 +14,7 @@ COMP 360 ON1 Assignments
 - Fahim Ar-Rashid
 #### Record debugging/testing demo videos
 - Sho Okano, [Initial 2D Texture Creation](https://youtu.be/Hb5TNBVI_qE)
+- 
 - Aniket Sandhu,
   The terrain looked blocky because each triangle was created with its own vertices, so lighting couldn’t blend across them.  
 
@@ -23,8 +24,10 @@ I fixed this by:
 
   ![Smoothing Fix](assets/smooth_fix.png)
   ![Smoothing Fix](assets/smooth_fix2.png)
+
 #### Review pull requests
-- TBD
+- Pragti
+  Tested and reviewed the PR from the group. Fixed some minor bugs
 #### Update project documentation (README.md, kanban board)
 - Sho Okano
 - William Craske
@@ -33,4 +36,3 @@ I fixed this by:
 - Sho Okano
 - Fahim Ar-Rashid
 - Aniket Sandhu
-
