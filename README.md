@@ -14,7 +14,7 @@ COMP 360 ON1 Assignments
 - Fahim Ar-Rashid
 #### Record debugging/testing demo videos
 - Sho Okano, [Initial 2D Texture Creation](https://youtu.be/Hb5TNBVI_qE)
-- 
+- Sunny Pak, https://github.com/360-g5/assignments/wiki/How-Sunny-Approached-This
 - Aniket Sandhu,
   The terrain looked blocky because each triangle was created with its own vertices, so lighting couldn’t blend across them.  
 
