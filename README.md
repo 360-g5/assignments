@@ -16,15 +16,7 @@ COMP 360 ON1 Assignments
 - Sho Okano, [Initial 2D Texture Creation](https://youtu.be/Hb5TNBVI_qE)
 - William Craske, [2D fix and 3D base Creation](https://www.youtube.com/watch?v=Jn8QvWzMxn8)
 - Sunny Pak, https://github.com/360-g5/assignments/wiki/How-Sunny-Approached-This
-- Aniket Sandhu,
-  The terrain looked blocky because each triangle was created with its own vertices, so lighting couldn’t blend across them.  
-
-I fixed this by:
-- Adding `st.index()` so vertices are shared between triangles.
-- Using `st.generate_normals()` so normals are averaged for smooth shading.
-
-  ![Smoothing Fix](assets/smooth_fix.png)
-  ![Smoothing Fix](assets/smooth_fix2.png)
+- Aniket Sandhu, [How Aniket Approached This](https://github.com/360-g5/assignments/wiki/How-Aniket-Approached-This)
 
 #### Review pull requests
 - Pragti
