@@ -10,6 +10,7 @@ COMP 360 ON1 Assignments
 - William Craske
 - Pragti Duggal
 - Ayush Jain
+- Sho Okano
 
 #### Generate 2D texture
 - Sho Okano
@@ -17,15 +18,16 @@ COMP 360 ON1 Assignments
 - Fahim Ar-Rashid
 
 #### Document debugging/testing with video or wiki
-- Sho Okano, [Initial 2D Texture Creation (video)](https://youtu.be/Hb5TNBVI_qE)
+- Sho Okano, [Initial 2D Texture Creation (video)](https://youtu.be/Hb5TNBVI_qE), [With texture overlay vs without (wiki page)](https://github.com/360-g5/assignments/wiki/With-texture-overlay-vs-without)
 - William Craske, [2D fix and 3D base Creation (video)](https://www.youtube.com/watch?v=Jn8QvWzMxn8)
 - Sunny Pak, [How Sunny Approached This (wiki page)](https://github.com/360-g5/assignments/wiki/How-Sunny-Approached-This)
 - Aniket Sandhu, [How Aniket Approached This (wiki page)](https://github.com/360-g5/assignments/wiki/How-Aniket-Approached-This)
-- Ayush Jain, [How Ayush Jain Approached This (Wiki Page) ] (https://github.com/360-g5/assignments/wiki/How-Ayush-Jain-Approached-This)
+- Ayush Jain, [How Ayush Jain Approached This (Wiki Page) ](https://github.com/360-g5/assignments/wiki/How-Ayush-Jain-Approached-This)
 
 #### Test & review pull requests
 - Pragti Duggal
 - Sho Okano
+- Ayush Jain
   
 #### Update project documentation (README.md, kanban board)
 - Sho Okano
