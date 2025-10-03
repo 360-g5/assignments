@@ -5,7 +5,7 @@ COMP 360 ON1 Assignments
 *If you've contributed something since this file was last updated, please add yourself in!*
 
 #### Generate 3D landscape
-- Sun Pak
+- Sunny Pak
 - Aniket Sandhu
 - William Craske
 - Pragti Duggal
