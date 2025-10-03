@@ -26,9 +26,9 @@ COMP 360 ON1 Assignments
 - Pragti
   Tested and reviewed the PRs and performed minor testing. 
   Refactored/Changed the following:
-    main.gd is now only orchestration (terrain + camera + light).
-    TerrainGenerator.gd encapsulates all terrain logic → reusable for other scenes.
-    Parameters (grid_scale, height_scale, width, height) are exported, so you can tweak terrain size from the editor without touching code.
+    - main.gd is now only orchestration (terrain + camera + light).
+    - TerrainGenerator.gd encapsulates all terrain logic → reusable for other scenes.
+    - Parameters (grid_scale, height_scale, width, height) are exported, so you can tweak terrain size from the editor without touching code.
   
 #### Update project documentation (README.md, kanban board)
 - Sho Okano
