@@ -21,6 +21,7 @@ COMP 360 ON1 Assignments
 - William Craske, [2D fix and 3D base Creation (video)](https://www.youtube.com/watch?v=Jn8QvWzMxn8)
 - Sunny Pak, [How Sunny Approached This (wiki page)](https://github.com/360-g5/assignments/wiki/How-Sunny-Approached-This)
 - Aniket Sandhu, [How Aniket Approached This (wiki page)](https://github.com/360-g5/assignments/wiki/How-Aniket-Approached-This)
+- Ayush Jain, [How Ayush Jain Approached This (Wiki Page) ] (https://github.com/360-g5/assignments/wiki/How-Ayush-Jain-Approached-This)
 
 #### Test & review pull requests
 - Pragti Duggal
