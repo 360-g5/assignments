@@ -8,32 +8,29 @@ COMP 360 ON1 Assignments
 - Sun Pak
 - Aniket Sandhu
 - William Craske
+- Pragti Duggal
+- Ayush Jain
+
 #### Generate 2D texture
 - Sho Okano
 - William Craske
 - Fahim Ar-Rashid
 
-### Refactor Codebase and Added Texture Mapping
-- Ayush Jain
+#### Document debugging/testing with video or wiki
+- Sho Okano, [Initial 2D Texture Creation (video)](https://youtu.be/Hb5TNBVI_qE)
+- William Craske, [2D fix and 3D base Creation (video)](https://www.youtube.com/watch?v=Jn8QvWzMxn8)
+- Sunny Pak, [How Sunny Approached This (wiki page)](https://github.com/360-g5/assignments/wiki/How-Sunny-Approached-This)
+- Aniket Sandhu, [How Aniket Approached This (wiki page)](https://github.com/360-g5/assignments/wiki/How-Aniket-Approached-This)
 
-#### Record debugging/testing demo videos
-- Sho Okano, [Initial 2D Texture Creation](https://youtu.be/Hb5TNBVI_qE)
-- William Craske, [2D fix and 3D base Creation](https://www.youtube.com/watch?v=Jn8QvWzMxn8)
-- Sunny Pak, https://github.com/360-g5/assignments/wiki/How-Sunny-Approached-This
-- Aniket Sandhu, [How Aniket Approached This](https://github.com/360-g5/assignments/wiki/How-Aniket-Approached-This)
-
-#### Review pull requests
-- Pragti
-  Tested and reviewed the PRs and performed minor testing. 
-  Refactored/Changed the following:
-    - main.gd is now only orchestration (terrain + camera + light).
-    - TerrainGenerator.gd encapsulates all terrain logic → reusable for other scenes.
-    - Parameters (grid_scale, height_scale, width, height) are exported, so you can tweak terrain size from the editor without touching code.
+#### Test & review pull requests
+- Pragti Duggal
+- Sho Okano
   
 #### Update project documentation (README.md, kanban board)
 - Sho Okano
 - William Craske
 - Aniket Sandhu
+
 #### Update discord documentation (meeting minutes, assignment clarifications, helpful tools) 
 - Sho Okano
 - Fahim Ar-Rashid
