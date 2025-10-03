@@ -8,20 +8,40 @@ class_name TerrainGenerator
 @export var width: int = 502
 @export var height: int = 502
 
-func make_noise(seed: int = 654) -> FastNoiseLite:
+var terrain: MeshInstance3D
+
+func make_noise(noise_seed: int = 654, freq = 0.0158, lacuna: float = 0.5, gain: float = 0.5) -> FastNoiseLite:
 	var noise := FastNoiseLite.new()
-	noise.seed = seed
+	noise.seed = noise_seed
 	noise.noise_type = FastNoiseLite.TYPE_PERLIN
-	noise.fractal_type = FastNoiseLite.FRACTAL_FBM
+	noise.fractal_type = FastNoiseLite.FRACTAL_FBM	 
 	noise.fractal_octaves = 5
-	noise.frequency = 0.0158
-	noise.fractal_lacunarity = 0.5
-	noise.fractal_gain = 0.5
+	noise.frequency = freq
+	noise.fractal_lacunarity = lacuna
+	noise.fractal_gain = gain
 	noise.fractal_weighted_strength = 0.5
 	return noise
 
+func generate_texture():
+	var noise_texture = await make_noise_texture()
+	var material = noise_texture_to_material(noise_texture)
+	return material
 
-func generate() -> MeshInstance3D:
+func make_noise_texture() -> NoiseTexture2D:
+	var noise_texture = NoiseTexture2D.new()
+	noise_texture.noise = make_noise()
+	await noise_texture.changed
+	noise_texture.width = width
+	noise_texture.height = height
+	return noise_texture
+	
+func noise_texture_to_material(noise_texture: NoiseTexture2D) -> StandardMaterial3D:
+	var material = StandardMaterial3D.new()
+	material.albedo_texture = noise_texture
+	return material
+	
+
+func generate_mesh() -> MeshInstance3D:
 	var noise := make_noise()
 	var img := noise.get_image(width, height)
 	return _image_to_mesh(img)
