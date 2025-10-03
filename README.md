@@ -12,6 +12,10 @@ COMP 360 ON1 Assignments
 - Sho Okano
 - William Craske
 - Fahim Ar-Rashid
+
+### Refactor Codebase and Added Texture Mapping
+- Ayush Jain
+
 #### Record debugging/testing demo videos
 - Sho Okano, [Initial 2D Texture Creation](https://youtu.be/Hb5TNBVI_qE)
 - William Craske, [2D fix and 3D base Creation](https://www.youtube.com/watch?v=Jn8QvWzMxn8)
@@ -29,3 +33,4 @@ COMP 360 ON1 Assignments
 - Sho Okano
 - Fahim Ar-Rashid
 - Aniket Sandhu
+- Ayush Jain
