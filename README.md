@@ -2,7 +2,6 @@ COMP 360 ON1 Assignments
 
 
 ## Assignment 1: 3D Landscape
-*If you've contributed something since this file was last updated, please add yourself in!*
 
 #### Generate 3D landscape
 - Sunny Pak
@@ -33,6 +32,9 @@ COMP 360 ON1 Assignments
 - Sho Okano
 - William Craske
 - Aniket Sandhu
+- Sunny Pak
+- Pragti Duggal
+- Ayush Jain
 
 #### Update discord documentation (meeting minutes, assignment clarifications, helpful tools) 
 - Sho Okano
