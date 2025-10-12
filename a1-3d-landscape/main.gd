@@ -1,11 +1,12 @@
+@tool
 extends Node3D
-@onready var terrain_generator := TerrainGenerator.new()
 
 func _ready():
 	_setup_scene()
 	
 func _setup_scene():
 	# Terrain
+	var terrain_generator := TerrainGenerator.new()
 	var terrain := terrain_generator.generate_mesh()
 	var texture = await terrain_generator.generate_texture()
 	terrain.set_surface_override_material(0, texture)
