@@ -1,6 +1,24 @@
+@tool
 extends Node
 
 class_name TerrainGenerator
+
+# Exports for heightmap
+@export_group("Heightmap Noise")
+@export var height_seed: int = 654
+@export var height_freq: float = 0.0158
+@export var height_lacunarity: float = 0.5
+@export var height_gain: float = 0.5
+
+# Exports for texture
+@export_group("Texture Noise")
+@export var texture_seed: int = 654
+@export var texture_freq: float = 0.2158  # adjusted, original A1 setting below
+#@export var texture_freq: float = 0.0158
+@export var texture_lacunarity: float = 2.5  # adjusted, original A1 setting below
+#@export var texture_lacunarity: float = 0.5
+@export var texture_gain: float = 22.5  # adjusted, original A1 setting below
+#@export var texture_gain: float = 0.5
 
 # Exported so you can tweak from the editor later
 @export var grid_scale: float = 1.0
@@ -10,7 +28,11 @@ class_name TerrainGenerator
 
 var terrain: MeshInstance3D
 
-func make_noise(noise_seed: int = 654, freq = 0.0158, lacuna: float = 0.5, gain: float = 0.5) -> FastNoiseLite:
+# called from generate_mesh() and _make_noise_texture_2d()
+func _make_noise(noise_seed: int, freq: float, lacuna: float, gain: float) -> FastNoiseLite:
+	"""
+	Creates noise image used for mesh and texture
+	"""
 	var noise := FastNoiseLite.new()
 	noise.seed = noise_seed
 	noise.noise_type = FastNoiseLite.TYPE_PERLIN
@@ -22,32 +44,22 @@ func make_noise(noise_seed: int = 654, freq = 0.0158, lacuna: float = 0.5, gain:
 	noise.fractal_weighted_strength = 0.5
 	return noise
 
-func generate_texture():
-	var noise_texture = await make_noise_texture()
-	var material = noise_texture_to_material(noise_texture)
-	return material
-
-func make_noise_texture() -> NoiseTexture2D:
-	var noise_texture = NoiseTexture2D.new()
-	noise_texture.noise = make_noise()
-	await noise_texture.changed
-	noise_texture.width = width
-	noise_texture.height = height
-	return noise_texture
-	
-func noise_texture_to_material(noise_texture: NoiseTexture2D) -> StandardMaterial3D:
-	var material = StandardMaterial3D.new()
-	material.albedo_texture = noise_texture
-	return material
-	
-
+# called from main.gd > _setup_scene()
 func generate_mesh() -> MeshInstance3D:
-	var noise := make_noise()
+	"""
+	Returns a MeshInstance3D created from an image
+	generated using exported heightmap settings
+	"""
+	var noise := _make_noise(height_seed, height_freq, height_lacunarity, height_gain)
 	var img := noise.get_image(width, height)
 	return _image_to_mesh(img)
 
-
+# called from generate_mesh()
 func _image_to_mesh(image: Image) -> MeshInstance3D:
+	"""
+	Converts image (ie heightmap) into MeshInstance3D
+	value of a given pixel determines height of vertex at that point
+	"""
 	var w := image.get_width()
 	var h := image.get_height()
 	var st := SurfaceTool.new()
@@ -80,3 +92,36 @@ func _image_to_mesh(image: Image) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
 	mi.mesh = mesh
 	return mi
+
+# called from generate_texture()
+func _make_noise_texture_2d() -> NoiseTexture2D:
+	"""
+	Creates the NoiseTexture2D to be used for the 
+	StandardMaterial3D overlaid on the mesh
+	"""
+	var noise_texture = NoiseTexture2D.new()
+	noise_texture.noise = _make_noise(texture_seed, texture_freq, texture_lacunarity, texture_gain)
+	await noise_texture.changed
+	noise_texture.width = width
+	noise_texture.height = height
+	return noise_texture
+	
+# called from generate_texture()
+func _noise_texture_2d_to_material(noise_texture: NoiseTexture2D) -> StandardMaterial3D:
+	"""
+	Creates StandardMaterial3D to be displayed on mesh from provided 
+	NoiseTexture2D
+	"""
+	var material = StandardMaterial3D.new()
+	material.albedo_texture = noise_texture
+	return material
+	
+# called from main.gd > _setup_scene()
+func generate_texture():
+	"""
+	Returns a StandardMaterial3D (made from NoiseTexture2D)
+	to be used on mesh surface
+	"""
+	var noise_texture = await _make_noise_texture_2d()
+	var material = _noise_texture_2d_to_material(noise_texture)
+	return material
