@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://do5kyv4mx8gks"]
+
+[ext_resource type="Script" uid="uid://dkvjj525x38gr" path="res://main.gd" id="1_fj7yv"]
+[ext_resource type="Script" uid="uid://by23c2rvurcbi" path="res://cameraController.gd" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://dblhbvtd2ui" path="res://landscape.gd" id="2_tlwt5"]
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_fj7yv")
+
+[node name="Landscape" type="Node3D" parent="."]
+script = ExtResource("2_tlwt5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("2_fj7yv")
