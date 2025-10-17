@@ -5,7 +5,8 @@ extends Camera3D
 #movement settings
 @export var moveSpeed: float = 50.0
 @export var verticalSpeed: float = 30.0
-@export var turnSpeed: float = 0.5  
+#@export var turnSpeed: float = 0.5
+@export var turnSpeed: float = 1.0    
 
 var velocity: Vector3 = Vector3.ZERO
 

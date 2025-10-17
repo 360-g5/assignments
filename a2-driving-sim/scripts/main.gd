@@ -2,7 +2,7 @@
 extends Node3D
 
 #load camera for method
-const CameraController = preload("res://cameraController.gd")
+const CameraController = preload("res://scripts/cameraController.gd")
 
 func _ready():
 	# Camera

@@ -1,6 +1,5 @@
 # some debug meshes to draw spheres and lines at points when needed
 # adapted from https://github.com/Ryan-Mirch/Line-and-Sphere-Drawing/tree/main
-@tool
 extends Node
 
 func generate_point_sphere(pos:Vector3, radius = 1, colour = Color.AQUA) -> MeshInstance3D:
