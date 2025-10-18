@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://2los6sjctqyv"]
+
+[ext_resource type="Script" uid="uid://dblhbvtd2ui" path="res://scripts/landscape.gd" id="1_10ie5"]
+
+[node name="Landscape" type="Node3D"]
+script = ExtResource("1_10ie5")

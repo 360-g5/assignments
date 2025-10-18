@@ -2,11 +2,16 @@
 extends Node3D
 
 #load camera for method
-const CameraController = preload("res://cameraController.gd")
+const CameraController = preload("res://scripts/cameraController.gd")
 
 func _ready():
 	# Camera
-	add_child(make_camera(Vector3(264, 60, 460), Vector3(64, 60, 64)))
+	#add_child(make_camera(Vector3(264, 260, 460), Vector3(64, 60, 64)))
+	#add_child(make_camera(Vector3(64, 60, 160), Vector3(0, 60, 10)))
+	add_child(make_camera(Vector3(50, 60, 50), Vector3(200, 60, 150)))
+	
+	
+
 	# Lighting
 	add_child(make_sun())
 #
