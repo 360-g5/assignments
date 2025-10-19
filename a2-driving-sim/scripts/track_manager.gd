@@ -35,6 +35,8 @@ func generate_track():
 		path.curve.add_point(point)
 	
 	track_mesh.generate_from_curve(path.curve, track_width)
+	addCollisionToTrack()
+	
 
 func get_control_points() -> Array:
 	# square tester track
@@ -86,3 +88,15 @@ func wrap_for_closed_loop(base_points: Array) -> Array:
 	wrapped.append(base_points[1])
 	
 	return wrapped
+
+
+func addCollisionToTrack():
+	#create a staticbody3D for collision
+	var staticBody = StaticBody3D.new()
+	track_mesh.add_child(staticBody)
+	#create collision shape from the mesh
+	var collisionShape = CollisionShape3D.new()
+	staticBody.add_child(collisionShape)
+	#generate collision shape from the track mesh
+	var shape = track_mesh.mesh.create_trimesh_shape()
+	collisionShape.shape = shape
