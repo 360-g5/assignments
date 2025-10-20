@@ -78,7 +78,8 @@ func get_control_points() -> Array:
 	stitched.append_array(base.slice(B, base.size()))
 
 	
-	var wrapped = wrap_for_closed_loop(base)
+	var wrapped = wrap_for_closed_loop(stitched)
+	
 	
 	#print("Base points: ", base.size())
 	#print("Wrapped points: ", wrapped.size())
