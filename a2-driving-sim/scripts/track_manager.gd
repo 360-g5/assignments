@@ -54,7 +54,29 @@ func get_control_points() -> Array:
 		Vector3(190, 50, 160),
 		Vector3(270, 50, 100),
 		Vector3(200, 50, 60)
-	]
+	] 
+# splice a Hilbert L2 detour between base[1] (entrance) and base[2] (exit)
+	var A := 1  # entrance index in base
+	var B := 2  # exit index in base
+	var entrance: Vector3 = base[A]
+	var exit: Vector3 = base[B]
+
+	# generate unit-square Hilbert L2 points, lightly inset so it doesn't graze the mouth
+	var H2: Array[Vector2] = hilbert_points(2)  # L2
+	for i in range(H2.size()):
+		H2[i] = (H2[i] - Vector2(0.5, 0.5)) * 0.95 + Vector2(0.5, 0.5)
+
+	# fit/rotate/scale the Hilbert between entrance → exit on XZ plane at y=50
+	var detour: Array[Vector3] = fit_hilbert_between(H2, entrance, exit, 110.0, 50.0)
+	# drop endpoints (they equal entrance/exit) so we don't duplicate
+	var detour_interior := detour.slice(1, detour.size() - 1)
+
+	#  stitch base[0..A], detour, base[B..end]
+	var stitched: Array[Vector3] = []
+	stitched.append_array(base.slice(0, A + 1))
+	stitched.append_array(detour_interior)
+	stitched.append_array(base.slice(B, base.size()))
+
 	
 	var wrapped = wrap_for_closed_loop(base)
 	
@@ -89,7 +111,70 @@ func wrap_for_closed_loop(base_points: Array) -> Array:
 	
 	return wrapped
 
+#Hilbert helpers
 
+# Return an Array[Vector2] of Hilbert curve points in [0,1]x[0,1] (order >= 1)
+func hilbert_points(order: int) -> Array[Vector2]:
+	var n := 1 << order
+	var out: Array[Vector2] = []
+	out.resize(n * n)
+	for d in range(n * n):
+		var xy := _hilbert_d2xy(n, d)
+		out[d] = Vector2(xy.x / float(n - 1), xy.y / float(n - 1))
+	return out
+
+# Map Hilbert distance d to integer grid (x,y)
+func _hilbert_d2xy(n: int, d: int) -> Vector2i:
+	var t := d
+	var x := 0
+	var y := 0
+	var s := 1
+	while s < n:
+		var rx := 1 & int(t / 2)
+		var ry := 1 & int(t ^ rx)
+		var v := _hilbert_rot(s, x, y, rx, ry)
+		x = v.x
+		y = v.y
+		x += s * rx
+		y += s * ry
+		t = int(t / 4)
+		s *= 2
+	return Vector2i(x, y)
+
+func _hilbert_rot(n: int, x: int, y: int, rx: int, ry: int) -> Vector2i:
+	if ry == 0:
+		if rx == 1:
+			x = n - 1 - x
+			y = n - 1 - y
+		var tmp := x
+		x = y
+		y = tmp
+	return Vector2i(x, y)
+
+# Fit a unit-square 2D Hilbert between entrance→exit in 3D (XZ plane), y=y_level
+#     max_scale caps the size; it will auto-shrink to the chord length if needed.
+func fit_hilbert_between(h2d: Array[Vector2], entrance: Vector3, exit: Vector3, max_scale: float, y_level: float) -> Array[Vector3]:
+	var seg: Vector3 = exit - entrance
+	var len = max(0.001, seg.length())
+	var dir: Vector3 = seg / len
+	var yaw := -atan2(dir.x, dir.z)
+	var rot := Basis(Vector3.UP, yaw)
+# Godot 4 ternary
+	var scale = (min(len, max_scale) if max_scale > 0.0 else len)
+
+	var out: Array[Vector3] = []
+	out.resize(h2d.size())
+	for i in range(h2d.size()):
+		var p := h2d[i]  # 0..1
+		var local := Vector3(p.x * scale, 0.0, (p.y - 0.5) * scale)
+		var world := entrance + rot * local
+		world.y = y_level
+		out[i] = world
+
+	# force exact endpoints
+	out[0] = Vector3(entrance.x, y_level, entrance.z)
+	out[out.size() - 1] = Vector3(exit.x, y_level, exit.z)
+	return out
 func addCollisionToTrack():
 	#create a staticbody3D for collision
 	var staticBody = StaticBody3D.new()
