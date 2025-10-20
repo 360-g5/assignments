@@ -5,11 +5,20 @@ extends CharacterBody3D
 @export var turnSpeed: float = 3.0    
 @export var gravity: float = 20.0
 
+# Steering wheel control
+var wheel: Node3D = null
+var steerAngle: float = 0.0
+@export var steerSpeed: float = 120.0      
+
+func _ready():
+	var camera = get_node_or_null("Camera3D")
+	wheel = camera.get_node_or_null("wheel")
 
 func _physics_process(delta: float) -> void:
 	handleMovement()
 	applyGravity(delta)
 	move_and_slide()
+	updateSteeringWheel(delta)
 
 #handle movement inputs
 func handleMovement() -> void:
@@ -38,3 +47,16 @@ func applyGravity(delta: float) -> void:
 		velocity.y -= gravity * delta
 	else:
 		velocity.y = 0
+
+#turns wheel
+func updateSteeringWheel(delta: float) -> void:
+	if Input.is_action_pressed("move_left"):
+		steerAngle = (steerAngle + steerSpeed * delta)
+	elif Input.is_action_pressed("move_right"):
+		steerAngle = (steerAngle - steerSpeed * delta)
+	else:
+		if steerAngle > 0:
+			steerAngle = max(0, steerAngle - steerSpeed * delta)
+		elif steerAngle < 0:
+			steerAngle = min(0, steerAngle + steerSpeed * delta)
+	wheel.rotation_degrees.z = steerAngle 
