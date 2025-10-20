@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://do5kyv4mx8gks"]
+[gd_scene load_steps=5 format=3 uid="uid://do5kyv4mx8gks"]
 
 [ext_resource type="Script" uid="uid://dkvjj525x38gr" path="res://scripts/main.gd" id="1_qfnet"]
 [ext_resource type="PackedScene" uid="uid://2los6sjctqyv" path="res://scenes/landscape.tscn" id="2_71j4m"]
-[ext_resource type="Script" uid="uid://by23c2rvurcbi" path="res://scripts/cameraController.gd" id="3_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://by1cm68uwvuv6" path="res://scenes/track.tscn" id="4_qfnet"]
 [ext_resource type="Script" uid="uid://ci3ovhqchd178" path="res://scripts/DebugMesh.gd" id="6_e3hyu"]
 
@@ -12,9 +11,6 @@ script = ExtResource("1_qfnet")
 [node name="Environment" type="Node3D" parent="."]
 
 [node name="Landscape" parent="Environment" instance=ExtResource("2_71j4m")]
-
-[node name="Camera3D" type="Camera3D" parent="Environment"]
-script = ExtResource("3_4mrxx")
 
 [node name="Track" parent="." instance=ExtResource("4_qfnet")]
 spline_resolution = 20
