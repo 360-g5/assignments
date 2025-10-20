@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 #movement settings
 @export var moveSpeed: float = 30.0
-@export var turnSpeed: float = 5.0    
+@export var turnSpeed: float = 3.0    
 @export var gravity: float = 20.0
 
 

@@ -13,7 +13,6 @@ script = ExtResource("1_qfnet")
 [node name="Landscape" parent="Environment" instance=ExtResource("2_71j4m")]
 
 [node name="Track" parent="." instance=ExtResource("4_qfnet")]
-spline_resolution = 20
 
 [node name="Debug" type="Node3D" parent="."]
 script = ExtResource("6_e3hyu")

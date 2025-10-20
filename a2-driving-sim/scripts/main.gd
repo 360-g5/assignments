@@ -6,7 +6,7 @@ const PlayerController = preload("res://scripts/playerController.gd")
 const SmokeGenerator = preload("res://scripts/smokeGenerator.gd")
 
 func _ready():
-	add_child(makePlayerBody(Vector3(50, 60, 50)))
+	add_child(makePlayerBody(Vector3(80, 60, 50), Vector3(250, 50, 90)))
 	# Lighting
 	add_child(make_sun())
 #
@@ -18,10 +18,12 @@ func makeSmoke(camera):
 	smoke.set_script(SmokeGenerator)
 	camera.add_child(smoke)
 	
-func makePlayerBody(pos: Vector3):
+func makePlayerBody(pos: Vector3, target: Vector3):
 	var player := CharacterBody3D.new()
 	player.set_script(PlayerController)
 	player.position = pos
+	player.look_at_from_position(pos, target, Vector3.UP)
+	
 	
 	#add collision to player
 	var collisionShape = CollisionShape3D.new()
