@@ -39,7 +39,7 @@ func makeCar(camera):
 	wheel.material_override = material
 	camera.add_child(wheel)
 
-	func makePlayerBody(pos: Vector3, target: Vector3):
+func makePlayerBody(pos: Vector3, target: Vector3):
 	var player := CharacterBody3D.new()
 	player.set_script(PlayerController)
 	player.position = pos
