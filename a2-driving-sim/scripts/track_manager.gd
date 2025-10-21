@@ -6,14 +6,25 @@
 extends Node3D
 
 # adjust to make track wider/narrower
-@export var track_width: float = 20.0
+@export var track_width: float = 23.0
 # adjust to make curves more/less stiff; 0.5 = catmull-rom spline
 @export var track_tension: float = 0.5
 # adjust to add more/less interpolated pts per spline
-@export var spline_resolution: int = 10
+@export var spline_resolution: int = 30
+# now sets y for base points and hilbert points
+@export var track_y_level: float = 50.0
+
+@export_category("Hilbert")
+# hilbert curve is now rotated around a center point specified here
+@export var hilbert_center_x: float = 280.0
+@export var hilbert_center_z: float = 130.0
+@export var hilbert_rotation: float = 270.0
+@export var hilbert_size: float = 230.0
+@export var hilbert_reverse: bool = false
 
 @onready var path: Path3D = $Path3D
 @onready var track_mesh: MeshInstance3D = $TrackMesh
+#@onready var debug := get_node("/root/World/Debug")
 
 func _ready():
 	generate_track()
@@ -22,8 +33,6 @@ func _ready():
 func generate_track():
 	var control_points = get_control_points()
 	
-	# where the magic happens
-	# thank you Russell and Freya
 	var splined_points = Spline.generate_full_spline(
 		control_points, 
 		spline_resolution, 
@@ -36,38 +45,38 @@ func generate_track():
 	
 	track_mesh.generate_from_curve(path.curve, track_width)
 	addCollisionToTrack()
-	
 
 func get_control_points() -> Array:
-	# square tester track
-	#var base = [
-		#Vector3(0, 50, 0),
-		#Vector3(100, 50, 0),
-		#Vector3(100, 50, 100),
-		#Vector3(0, 50, 100)
-	#]
-	
-	# this is also a tester track, just bigger
 	var base = [
-		Vector3(50, 50, 50),
-		Vector3(100, 50, 150),
-		Vector3(190, 50, 160),
-		Vector3(270, 50, 100),
-		Vector3(200, 50, 60)
-	] 
-# splice a Hilbert L2 detour between base[1] (entrance) and base[2] (exit)
-	var A := 1  # entrance index in base
-	var B := 2  # exit index in base
-	var entrance: Vector3 = base[A]
-	var exit: Vector3 = base[B]
-
-	# generate unit-square Hilbert L2 points, lightly inset so it doesn't graze the mouth
-	var H2: Array[Vector2] = hilbert_points(2)  # L2
-	for i in range(H2.size()):
-		H2[i] = (H2[i] - Vector2(0.5, 0.5)) * 0.95 + Vector2(0.5, 0.5)
+		Vector3(80, track_y_level, 50),   # 0
+		Vector3(250, track_y_level, 90),  # 1
+		Vector3(400, track_y_level, 70), # 2
+		Vector3(450, track_y_level, 160), # 3
+		Vector3(430, track_y_level, 350), # 4
+		Vector3(350, track_y_level, 440), # 5
+		Vector3(250, track_y_level, 410), # 6
+		Vector3(70, track_y_level, 400), # 7
+		Vector3(100, track_y_level, 250), # 8
+		Vector3(50, track_y_level, 150), # 9
+	]
+	
+	#for i in base.size():
+		#debug.generate_point_sphere(base[i])
+	
+	# splice a Hilbert detour between two points in base
+	var A := 3  # entrance index in base
+	var B := 4  # exit index in base
+	var H: Array[Vector2] = hilbert_points(2)  # L2
 
 	# fit/rotate/scale the Hilbert between entrance → exit on XZ plane at y=50
-	var detour: Array[Vector3] = fit_hilbert_between(H2, entrance, exit, 110.0, 50.0)
+	var detour: Array[Vector3] = fit_hilbert_between(
+		H, 
+		Vector3(hilbert_center_x, track_y_level, hilbert_center_z), 
+		hilbert_size, 
+		hilbert_reverse,
+		hilbert_rotation, 
+		)
+	
 	# drop endpoints (they equal entrance/exit) so we don't duplicate
 	var detour_interior := detour.slice(1, detour.size() - 1)
 
@@ -77,16 +86,9 @@ func get_control_points() -> Array:
 	stitched.append_array(detour_interior)
 	stitched.append_array(base.slice(B, base.size()))
 
-	
 	var wrapped = wrap_for_closed_loop(stitched)
 	
-	
-	#print("Base points: ", base.size())
-	#print("Wrapped points: ", wrapped.size())
-	#print("Segments to generate: ", wrapped.size() - 3)  
-	
 	return wrapped
-
 
 # (not needed in example project since that spline was not closed)
 # since splines are done in chunks of 4 pts, you need k+3 pts
@@ -152,30 +154,33 @@ func _hilbert_rot(n: int, x: int, y: int, rx: int, ry: int) -> Vector2i:
 		y = tmp
 	return Vector2i(x, y)
 
-# Fit a unit-square 2D Hilbert between entrance→exit in 3D (XZ plane), y=y_level
-#     max_scale caps the size; it will auto-shrink to the chord length if needed.
-func fit_hilbert_between(h2d: Array[Vector2], entrance: Vector3, exit: Vector3, max_scale: float, y_level: float) -> Array[Vector3]:
-	var seg: Vector3 = exit - entrance
-	var len = max(0.001, seg.length())
-	var dir: Vector3 = seg / len
-	var yaw := -atan2(dir.x, dir.z)
+# Fit Hilbert curve between specified entrance & exit
+func fit_hilbert_between(
+	h2d: Array[Vector2], 
+	center: Vector3,
+	size: float, 
+	# to reverse order if base path points are written ccw
+	reverse_dir: bool, 
+	rotation_deg: float = 0.0,
+	) -> Array[Vector3]:
+	
+	var yaw := deg_to_rad(rotation_deg)
 	var rot := Basis(Vector3.UP, yaw)
-# Godot 4 ternary
-	var scale = (min(len, max_scale) if max_scale > 0.0 else len)
 
 	var out: Array[Vector3] = []
 	out.resize(h2d.size())
 	for i in range(h2d.size()):
 		var p := h2d[i]  # 0..1
-		var local := Vector3(p.x * scale, 0.0, (p.y - 0.5) * scale)
-		var world := entrance + rot * local
-		world.y = y_level
+		var local := Vector3(p.x * size, 0.0, (p.y - 0.5) * size)
+		var world := center + rot * local
+		world.y = center.y
 		out[i] = world
 
-	# force exact endpoints
-	out[0] = Vector3(entrance.x, y_level, entrance.z)
-	out[out.size() - 1] = Vector3(exit.x, y_level, exit.z)
+	if reverse_dir:
+		out.reverse()
+	
 	return out
+
 func addCollisionToTrack():
 	#create a staticbody3D for collision
 	var staticBody = StaticBody3D.new()
