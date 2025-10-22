@@ -68,7 +68,7 @@ func get_control_points() -> Array:
 	var B := 4  # exit index in base
 	var H: Array[Vector2] = hilbert_points(2)  # L2
 
-	# fit/rotate/scale the Hilbert between entrance → exit on XZ plane at y=50
+	# Builds the Hilbert curve section that connects the two points on the track at height 50
 	var detour: Array[Vector3] = fit_hilbert_between(
 		H, 
 		Vector3(hilbert_center_x, track_y_level, hilbert_center_z), 
@@ -80,7 +80,7 @@ func get_control_points() -> Array:
 	# drop endpoints (they equal entrance/exit) so we don't duplicate
 	var detour_interior := detour.slice(1, detour.size() - 1)
 
-	#  stitch base[0..A], detour, base[B..end]
+	# Combine the main track and detour points into a single path before closing the loop
 	var stitched: Array[Vector3] = []
 	stitched.append_array(base.slice(0, A + 1))
 	stitched.append_array(detour_interior)
@@ -116,7 +116,7 @@ func wrap_for_closed_loop(base_points: Array) -> Array:
 
 #Hilbert helpers
 
-# Return an Array[Vector2] of Hilbert curve points in [0,1]x[0,1] (order >= 1)
+# Generate 2D Hilbert curve points within a 0–1 range
 func hilbert_points(order: int) -> Array[Vector2]:
 	var n := 1 << order
 	var out: Array[Vector2] = []
@@ -126,7 +126,7 @@ func hilbert_points(order: int) -> Array[Vector2]:
 		out[d] = Vector2(xy.x / float(n - 1), xy.y / float(n - 1))
 	return out
 
-# Map Hilbert distance d to integer grid (x,y)
+# Convert a single Hilbert index (d) into a 2D grid coordinate (x, y)
 func _hilbert_d2xy(n: int, d: int) -> Vector2i:
 	var t := d
 	var x := 0
@@ -143,7 +143,7 @@ func _hilbert_d2xy(n: int, d: int) -> Vector2i:
 		t = int(t / 4)
 		s *= 2
 	return Vector2i(x, y)
-
+# Rotate and flip the coordinate system based on Hilbert curve quadrant
 func _hilbert_rot(n: int, x: int, y: int, rx: int, ry: int) -> Vector2i:
 	if ry == 0:
 		if rx == 1:
@@ -154,12 +154,12 @@ func _hilbert_rot(n: int, x: int, y: int, rx: int, ry: int) -> Vector2i:
 		y = tmp
 	return Vector2i(x, y)
 
-# Fit Hilbert curve between specified entrance & exit
+# Generate a Hilbert curve centered at the given position with size, rotation, and optional flip
 func fit_hilbert_between(
 	h2d: Array[Vector2], 
 	center: Vector3,
 	size: float, 
-	# to reverse order if base path points are written ccw
+	# set true to flip the curve direction (useful if base path is counter-clockwise)
 	reverse_dir: bool, 
 	rotation_deg: float = 0.0,
 	) -> Array[Vector3]:
