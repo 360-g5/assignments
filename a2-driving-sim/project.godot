@@ -15,14 +15,6 @@ run/main_scene="uid://do5kyv4mx8gks"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-RaceManager="*res://scripts/RaceManager.gd"
-
-[global_group]
-
-car=""
-
 [input]
 
 move_forward={
