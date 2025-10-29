@@ -1,12 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://do5kyv4mx8gks"]
+[gd_scene load_steps=5 format=3 uid="uid://do5kyv4mx8gks"]
 
 [ext_resource type="Script" uid="uid://dkvjj525x38gr" path="res://scripts/main.gd" id="1_qfnet"]
 [ext_resource type="PackedScene" uid="uid://2los6sjctqyv" path="res://scenes/landscape.tscn" id="2_71j4m"]
 [ext_resource type="PackedScene" uid="uid://by1cm68uwvuv6" path="res://scenes/track.tscn" id="4_qfnet"]
-[ext_resource type="PackedScene" uid="uid://duj1h8lpsw5t5" path="res://scenes/hud.tscn" id="5_i7141"]
-[ext_resource type="Script" uid="uid://cgl5yhvdv0fmb" path="res://scripts/hud.gd" id="6_4mrxx"]
 [ext_resource type="Script" uid="uid://ci3ovhqchd178" path="res://scripts/DebugMesh.gd" id="6_e3hyu"]
-[ext_resource type="PackedScene" uid="uid://ctk7gwv8q4obv" path="res://scenes/car.tscn" id="8_4mrxx"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_qfnet")
@@ -16,48 +13,6 @@ script = ExtResource("1_qfnet")
 [node name="Landscape" parent="Environment" instance=ExtResource("2_71j4m")]
 
 [node name="Track" parent="." instance=ExtResource("4_qfnet")]
-spline_resolution = 20
 
 [node name="Debug" type="Node3D" parent="."]
 script = ExtResource("6_e3hyu")
-
-[node name="HUD" parent="." instance=ExtResource("5_i7141")]
-script = ExtResource("6_4mrxx")
-
-[node name="Control" type="Control" parent="HUD"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="HUD/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CountdownLabel" type="Label" parent="HUD/Control/CenterContainer"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="HUD/Control"]
-layout_mode = 1
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Control/MarginContainer"]
-layout_mode = 2
-
-[node name="TimeLabel" type="Label" parent="HUD/Control/MarginContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="LapLabel" type="Label" parent="HUD/Control/MarginContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="SpeedLabel" type="Label" parent="HUD/Control/MarginContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Car" parent="." groups=["car"] instance=ExtResource("8_4mrxx")]
