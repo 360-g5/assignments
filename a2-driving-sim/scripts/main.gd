@@ -6,7 +6,7 @@ const PlayerController = preload("res://scripts/playerController.gd")
 const SmokeGenerator = preload("res://scripts/smokeGenerator.gd")
 
 func _ready():
-	add_child(makePlayerBody(Vector3(50, 60, 50)))
+	add_child(makePlayerBody(Vector3(80, 60, 50), Vector3(250, 50, 90)))
 	# Lighting
 	add_child(make_sun())
 #
@@ -17,11 +17,34 @@ func makeSmoke(camera):
 	var smoke := Node3D.new()
 	smoke.set_script(SmokeGenerator)
 	camera.add_child(smoke)
-	
-func makePlayerBody(pos: Vector3):
+
+#adds car wheel as a sprite that rotates
+func makeCar(camera):
+	var wheel := Sprite3D.new()
+	wheel.name = "wheel"
+	wheel.texture = load("res://images/wheel.png")
+	wheel.billboard = BaseMaterial3D.BILLBOARD_DISABLED 
+	wheel.position = Vector3(0, -0.65, -0.8) 
+	wheel.scale = Vector3(0.2, 0.2, 0.2)
+	#create material so doesnt affect smoke
+	var material := StandardMaterial3D.new()
+	#render on top of smoke
+	material.no_depth_test = true
+	#ignore lighting 
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	#apply texture
+	material.albedo_texture = wheel.texture
+	#transparent bg
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	wheel.material_override = material
+	camera.add_child(wheel)
+
+func makePlayerBody(pos: Vector3, target: Vector3):
 	var player := CharacterBody3D.new()
 	player.set_script(PlayerController)
 	player.position = pos
+	player.look_at_from_position(pos, target, Vector3.UP)
+	
 	
 	#add collision to player
 	var collisionShape = CollisionShape3D.new()
@@ -33,6 +56,7 @@ func makePlayerBody(pos: Vector3):
 
 	#add a camera as a child 
 	var camera := Camera3D.new()
+	camera.name = "Camera3D"
 	camera.current = true
 	#make cam a bit above
 	camera.position = Vector3(0, 2, 0)
@@ -42,6 +66,9 @@ func makePlayerBody(pos: Vector3):
 	var smoke := Node3D.new()
 	smoke.set_script(SmokeGenerator)
 	player.add_child(smoke)
+	
+	#add car parts
+	makeCar(camera)
 
 	return player	
 	
