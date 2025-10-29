@@ -33,4 +33,3 @@ COMP 360 ON1 Assignments
 
 #### Update project documentation (README.md, kanban board, discord)
 - TBD
-
