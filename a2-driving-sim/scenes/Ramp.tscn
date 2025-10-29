@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://ctbq4p5w5phyk"]
+
+[ext_resource type="Script" uid="uid://c6jdx7yfinplq" path="res://scripts/BoostPad.gd" id="1_08jc4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iys31"]
+size = Vector3(4, 0.5, 5.43652)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gp0bm"]
+albedo_color = Color(1, 0, 1, 1)
+emission_enabled = true
+emission = Color(0.740074, 0.00213643, 0.929221, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_67gay"]
+material = SubResource("StandardMaterial3D_gp0bm")
+size = Vector3(4, 0.5, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mm3ij"]
+size = Vector3(8, 0.5, 18)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27efb"]
+albedo_color = Color(3.85046e-07, 0.620834, 0.612631, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uulkf"]
+material = SubResource("StandardMaterial3D_27efb")
+size = Vector3(8, 0.5, 18)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="ramp" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0)
+
+[node name="BoostPad" type="Area3D" parent="ramp"]
+transform = Transform3D(0.999926, 0, 0.0121995, 0.00417249, 0.939693, -0.341995, -0.0114638, 0.34202, 0.939623, 0, 0, 0)
+script = ExtResource("1_08jc4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ramp/BoostPad"]
+transform = Transform3D(1, 0, -1.86265e-07, 0, 1, 0, 1.86265e-07, 0, 1, -0.350361, 0.212291, -1.64785)
+shape = SubResource("BoxShape3D_iys31")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ramp/BoostPad"]
+mesh = SubResource("BoxMesh_67gay")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ramp"]
+shape = SubResource("BoxShape3D_mm3ij")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ramp"]
+mesh = SubResource("BoxMesh_uulkf")
