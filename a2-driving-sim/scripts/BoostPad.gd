@@ -13,7 +13,7 @@ func _on_body_entered(body: Node) -> void:
 	if _cooling_down:
 		return
 
-	var dir := -global_transform.basis.z.normalized()
+	var dir := global_transform.basis.z.normalized()
 	var impulse := dir * boost_forward + Vector3.UP * boost_up
 
 	if body is RigidBody3D:
