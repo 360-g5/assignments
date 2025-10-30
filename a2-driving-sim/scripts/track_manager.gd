@@ -5,6 +5,9 @@
 
 extends Node3D
 
+@export var ramp = preload("res://scenes/ramp.tscn")
+@export var ramp_spawn_chance: float = 0.3
+
 # adjust to make track wider/narrower
 @export var track_width: float = 23.0
 # adjust to make curves more/less stiff; 0.5 = catmull-rom spline
@@ -48,6 +51,18 @@ func generate_track():
 	track_mesh.generate_from_curve(path.curve, track_width)
 	addCollisionToTrack()
 	position_lap_line()
+	addRamps(splined_points)
+	
+func addRamps(points_array: Array) -> void:
+	for i in points_array.size() - 3:
+		if (i % 20 == 0) && (randf() < ramp_spawn_chance):
+			var ramp_inst = ramp.instantiate()
+			ramp_inst.look_at_from_position(
+				points_array[i+3] + Vector3(0,1.2,0), 
+				points_array[i]+ Vector3(0,1.2,0)
+				)
+			add_child(ramp_inst)
+	
 
 func get_control_points() -> Array:
 	var base = [
@@ -263,4 +278,3 @@ func addCollisionToTrack():
 	#generate collision shape from the track mesh
 	var shape = track_mesh.mesh.create_trimesh_shape()
 	collisionShape.shape = shape
-	
