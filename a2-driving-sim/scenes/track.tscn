@@ -17,7 +17,6 @@ point_count = 101
 
 [node name="Track" type="Node3D"]
 script = ExtResource("1_a7tuf")
-lap_line = ExtResource("2_a7tuf")
 
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_aqk2v")
@@ -26,3 +25,5 @@ curve = SubResource("Curve3D_aqk2v")
 mesh = SubResource("ArrayMesh_aqk2v")
 skeleton = NodePath("../..")
 script = ExtResource("2_ur0e5")
+
+[node name="LapLine" parent="." instance=ExtResource("2_a7tuf")]

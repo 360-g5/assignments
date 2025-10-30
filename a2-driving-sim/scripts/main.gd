@@ -6,7 +6,7 @@ const PlayerController = preload("res://scripts/playerController.gd")
 const SmokeGenerator = preload("res://scripts/smokeGenerator.gd")
 
 func _ready():
-	add_child(makePlayerBody(Vector3(50, 60, 50)))
+	add_child(makePlayerBody(Vector3(80, 60, 50), Vector3(250, 50, 90)))
 	# Lighting
 	add_child(make_sun())
 #
@@ -17,11 +17,34 @@ func makeSmoke(camera):
 	var smoke := Node3D.new()
 	smoke.set_script(SmokeGenerator)
 	camera.add_child(smoke)
+
+#adds car wheel mesh that rotates
+func makeCar(camera):
+	# https://www.turbosquid.com/3d-models/3d-pack-of-9-type-car-steering-wheels-lowpoly-3d-model-1884436
+	var scene = preload("res://images/37-steering-wheel/STEERING_WHEELS_01.glb").instantiate()
+	var wheel = scene.find_child("INT_005")
+	wheel.name = "wheel"
+	#remove that wheel from the multipack
+	scene.remove_child(wheel)
+	scene.free()
+	wheel.owner = null
+	camera.add_child(wheel)
+	# reposition and scale 
+	wheel.transform = Transform3D.IDENTITY
+	wheel.position = Vector3(0, -0.65, -0.8) 
+	wheel.scale = Vector3(2.5, 2.5, 2.5)
+	# make it a colour other than the default black so it stands out
+	var mesh_instance = wheel.get_node("INT_005")
+	var material := StandardMaterial3D.new()
+	material.albedo_color = Color.AQUA
+	mesh_instance.material_override = material
 	
-func makePlayerBody(pos: Vector3):
+
+func makePlayerBody(pos: Vector3, target: Vector3):
 	var player := CharacterBody3D.new()
 	player.set_script(PlayerController)
 	player.position = pos
+	player.look_at_from_position(pos, target, Vector3.UP)
 	
 	#add collision to player
 	var collisionShape = CollisionShape3D.new()
@@ -33,6 +56,7 @@ func makePlayerBody(pos: Vector3):
 
 	#add a camera as a child 
 	var camera := Camera3D.new()
+	camera.name = "Camera3D"
 	camera.current = true
 	#make cam a bit above
 	camera.position = Vector3(0, 2, 0)
@@ -42,6 +66,9 @@ func makePlayerBody(pos: Vector3):
 	var smoke := Node3D.new()
 	smoke.set_script(SmokeGenerator)
 	player.add_child(smoke)
+	
+	#add car parts
+	makeCar(camera)
 
 	return player	
 	
@@ -56,3 +83,4 @@ func make_sun() -> DirectionalLight3D:
 	sun.shadow_normal_bias = 1.0
 	sun.rotation_degrees = Vector3(-45, -30, 0)
 	return sun
+	

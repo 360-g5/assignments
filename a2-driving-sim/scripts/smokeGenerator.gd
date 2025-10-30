@@ -36,8 +36,6 @@ func create_smoke():
 	#face camera alwayts
 	material.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	material.albedo_color = smoke_color
-	#render on top, may have to change this
-	material.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_ALWAYS
 	#ignore shading
 	material.flags_unshaded = true
 	quad.material = material

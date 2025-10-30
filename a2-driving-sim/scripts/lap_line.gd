@@ -14,6 +14,10 @@ var _recently_crossed: Dictionary = {}
 
 func _ready():
 	# Connect the area entered signal
+	look_at(global_position + forward_direction, Vector3.UP)
+	align_with_camera()
+	
+	
 	body_entered.connect(_on_body_entered)
 	
 	# Set up a timer to clear the recently_crossed cache
@@ -22,6 +26,13 @@ func _ready():
 	clear_timer.timeout.connect(_clear_recently_crossed)
 	add_child(clear_timer)
 	clear_timer.start()
+	
+func align_with_camera():
+	var camera = get_viewport().get_camera_3d()
+	if camera:
+		print("gottem")
+		global_rotation = camera.global_rotation
+		rotate_object_local(Vector3.UP, deg_to_rad(90))
 
 func _on_body_entered(body: Node3D):
 	# Only process CharacterBody3D or vehicles
