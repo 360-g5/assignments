@@ -5,6 +5,9 @@
 
 extends Node3D
 
+@export var ramp = preload("res://scenes/ramp.tscn")
+@export var ramp_spawn_chance: float = 0.3
+
 # adjust to make track wider/narrower
 @export var track_width: float = 23.0
 # adjust to make curves more/less stiff; 0.5 = catmull-rom spline
@@ -13,6 +16,8 @@ extends Node3D
 @export var spline_resolution: int = 30
 # now sets y for base points and hilbert points
 @export var track_y_level: float = 50.0
+
+@export var lap_line_scene: PackedScene
 
 @export_category("Hilbert")
 # hilbert curve is now rotated around a center point specified here
@@ -45,6 +50,19 @@ func generate_track():
 	
 	track_mesh.generate_from_curve(path.curve, track_width)
 	addCollisionToTrack()
+	position_lap_line()
+	addRamps(splined_points)
+	
+func addRamps(points_array: Array) -> void:
+	for i in points_array.size() - 3:
+		if (i % 20 == 0) && (randf() < ramp_spawn_chance):
+			var ramp_inst = ramp.instantiate()
+			ramp_inst.look_at_from_position(
+				points_array[i+3] + Vector3(0,1.2,0), 
+				points_array[i]+ Vector3(0,1.2,0)
+				)
+			add_child(ramp_inst)
+	
 
 func get_control_points() -> Array:
 	var base = [
@@ -89,6 +107,75 @@ func get_control_points() -> Array:
 	var wrapped = wrap_for_closed_loop(stitched)
 	
 	return wrapped
+
+func position_lap_line():
+	# Remove existing lap line if any
+	var existing_lap_line = get_node_or_null("LapLine")
+	if existing_lap_line:
+		existing_lap_line.queue_free()
+	
+	# Create lap line completely programmatically
+	var lap_line = Area3D.new()
+	lap_line.name = "LapLine"
+	add_child(lap_line)
+	
+	# Add collision shape
+	var collision_shape = CollisionShape3D.new()
+	var box_shape = BoxShape3D.new()
+	box_shape.size = Vector3(track_width * 1.5, 4.0, 2.0)
+	collision_shape.shape = box_shape
+	lap_line.add_child(collision_shape)
+	
+	# Add visual mesh for debugging
+	var mesh_instance = MeshInstance3D.new()
+	var box_mesh = BoxMesh.new()
+	box_mesh.size = Vector3(track_width * 1.5, 4.0, 2.0)
+	mesh_instance.mesh = box_mesh
+	
+	var material = StandardMaterial3D.new()
+	material.albedo_color = Color(1, 0, 0, 0.3)  # Red with transparency
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mesh_instance.set_surface_override_material(0, material)
+	lap_line.add_child(mesh_instance)
+	
+	# Position at track start
+	var start_position = path.curve.get_point_position(0)
+	lap_line.global_position = start_position + Vector3(0, 2, 0)
+	
+	# Rotate to align with track direction
+	var track_direction = path.curve.get_point_position(1) - path.curve.get_point_position(0)
+	track_direction = track_direction.normalized()
+	lap_line.look_at(lap_line.global_position + track_direction, Vector3.UP)
+	
+	# Add the lap line script functionality
+	lap_line.body_entered.connect(_on_lap_line_body_entered)
+	
+	#print("Lap line created and positioned at: ", lap_line.global_position)
+
+func _on_lap_line_body_entered(body: Node3D):
+	if body is CharacterBody3D:
+		print("Lap completed by: ", body.name)
+		if has_node("/root/RaceManager"):
+			get_node("/root/RaceManager").add_lap()
+			
+func _adjust_lap_line_collision(lap_line: Node3D):
+	var collision_shape = lap_line.get_node_or_null("CollisionShape3D")
+	if not collision_shape:
+		push_warning("No CollisionShape3D found in lap line")
+		return
+	
+	# Make collision shape wide enough to span the track
+	if collision_shape.shape is BoxShape3D:
+		var box_shape: BoxShape3D = collision_shape.shape
+		box_shape.size = Vector3(track_width * 1.5, 4.0, 2.0)  # Wide, tall, thin
+	elif collision_shape.shape is CylinderShape3D:
+		var cylinder_shape: CylinderShape3D = collision_shape.shape
+		cylinder_shape.height = track_width * 1.5
+		cylinder_shape.radius = 1.0
+
+func _on_lap_completed():
+	print("Lap completed signal received in TrackManager")
+	RaceManager.add_lap()
 
 # (not needed in example project since that spline was not closed)
 # since splines are done in chunks of 4 pts, you need k+3 pts

@@ -46,7 +46,6 @@ func makePlayerBody(pos: Vector3, target: Vector3):
 	player.position = pos
 	player.look_at_from_position(pos, target, Vector3.UP)
 	
-	
 	#add collision to player
 	var collisionShape = CollisionShape3D.new()
 	var capsule = CapsuleShape3D.new()
@@ -84,3 +83,4 @@ func make_sun() -> DirectionalLight3D:
 	sun.shadow_normal_bias = 1.0
 	sun.rotation_degrees = Vector3(-45, -30, 0)
 	return sun
+	

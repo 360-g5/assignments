@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg7eshy5bg2ft"
+uid="uid://cnggp0jglksip"
 path.s3tc="res://.godot/imported/STEERING_WHEELS_01_001_COLOR_BASIC.png-cd5d1e8e2a53e6a79189bcb4691a9366.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "42846ebacb87192c3369efaeb0ccd89c"
 }
 
 [deps]
