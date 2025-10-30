@@ -14,8 +14,8 @@ COMP 360 ON1 Assignments
 #### Weather particles: 
 - William added smoke/exhaust particles using the particle system, attaching a smoke texture. The smoke trail follows the camera, so driving along, the user will see their path.
 
-#### Feature: 
-- TBD
+#### Ramp + Boost 
+- Aniket Sandhu
 
 #### Feature: 
 - TBD
