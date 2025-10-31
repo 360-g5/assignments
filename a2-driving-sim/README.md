@@ -4,24 +4,28 @@ COMP 360 ON1 Assignments
 ## Assignment 2: Interactive Driving Simulation
 
 #### Generate core track
-- Sho Okano
-- Aniket Sandhu 
+- Sho Okano (track mesh generation, splines, route)
+- Aniket Sandhu (hilbert curve)
 
 #### Camera & driving controls
-- William created a simple camera input for a first person camera driving experience. Current implementation only moves camera and rotates it using wasd controls. To setup, create node3d, attach main.gd as script, create a child of node3d with a camera3d, attach script. Then setup input handling, instructions in cameraController.gd https://www.youtube.com/watch?v=TpU0qGcv1iY
+- William created a simple camera input for a first person camera driving experience. Current implementation only moves camera and rotates it using wasd controls. https://www.youtube.com/watch?v=TpU0qGcv1iY
 - William created CharacterBody3d with camera attached and reworked movement to add collision to the player, terrain, and track. https://www.youtube.com/watch?v=8Aa7mAwrTRg
+- William implemented a 2D steering wheel that turns when the player does
+- Sho Okano (set up input handling, acceleration & deceleration, replace 2D steering wheel w 3D)
 
 #### Weather particles: 
 - William added smoke/exhaust particles using the particle system, attaching a smoke texture. The smoke trail follows the camera, so driving along, the user will see their path.
 
 #### Ramp + Boost 
-- Aniket Sandhu
+- Aniket Sandhu (ramp scene & script)
+- Sho Okano (ramp placement algorithm)
 
 #### Lighting: 
 - Pragti Duggal implemented the lighting setup in the project to enhance the overall visibility and realism of the racing environment. A DirectionalLight3D was added to simulate sunlight, providing consistent illumination across the track and car.
-- 
-#### Feature: 
-- TBD
+
+#### Timer & lap line: 
+- Sunny Pak (UI, timer, lap line)
+- Sho Okano (integrate with newer track & features)
 
 #### Document debugging/testing with video or wiki
 - Sho Okano, [Track generation process (wiki page)](https://github.com/360-g5/assignments/wiki/Sho-%E2%80%90-Track-generation-process)
@@ -35,3 +39,6 @@ COMP 360 ON1 Assignments
 - Sho Okano
 - Aniket Sandhu
 - Fahim Ar-Rashid
+- William Craske
+- Sunny Pak
+- Pragti Duggal
