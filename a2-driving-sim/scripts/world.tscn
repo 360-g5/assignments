@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=3 uid="uid://do5kyv4mx8gks"]
+
+[ext_resource type="Script" uid="uid://dkvjj525x38gr" path="res://scripts/main.gd" id="1_qfnet"]
+[ext_resource type="PackedScene" uid="uid://2los6sjctqyv" path="res://scenes/landscape.tscn" id="2_71j4m"]
+[ext_resource type="PackedScene" uid="uid://by1cm68uwvuv6" path="res://scenes/track.tscn" id="4_qfnet"]
+[ext_resource type="PackedScene" uid="uid://duj1h8lpsw5t5" path="res://scenes/hud.tscn" id="5_i7141"]
+[ext_resource type="Script" uid="uid://cgl5yhvdv0fmb" path="res://scripts/hud.gd" id="6_4mrxx"]
+[ext_resource type="Script" uid="uid://ci3ovhqchd178" path="res://scripts/DebugMesh.gd" id="6_e3hyu"]
+[ext_resource type="PackedScene" uid="uid://ctk7gwv8q4obv" path="res://scenes/car.tscn" id="8_4mrxx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i7141"]
+transparency = 1
+albedo_color = Color(0.14902, 1, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4mrxx"]
+emission_shape = 3
+emission_box_extents = Vector3(100, 30, 100)
+initial_velocity_min = 1.0
+initial_velocity_max = 4.0
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+orbit_velocity_min = 1.0
+orbit_velocity_max = 2.0
+linear_accel_min = -2.23517e-06
+linear_accel_max = 5.0
+scale_min = 0.0
+scale_max = 6.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_7r4gi"]
+size = Vector2(0.09, 0.08)
+
+[node name="World" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5621, 5.71945)
+script = ExtResource("1_qfnet")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Landscape" parent="Environment" instance=ExtResource("2_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.99747, -29.1506, -6.46873)
+
+[node name="rain" type="GPUParticles3D" parent="Environment/Landscape"]
+transform = Transform3D(-0.865113, 0.166631, -4.92177, 0.697744, 4.95087, 0.0449722, 4.87491, -0.679045, -0.879864, 178.095, 161.174, 305.468)
+material_override = SubResource("StandardMaterial3D_i7141")
+amount = 20000
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_4mrxx")
+draw_pass_1 = SubResource("QuadMesh_7r4gi")
+
+[node name="Track" parent="." instance=ExtResource("4_qfnet")]
+
+[node name="Debug" type="Node3D" parent="."]
+script = ExtResource("6_e3hyu")
+
+[node name="HUD" parent="." instance=ExtResource("5_i7141")]
+script = ExtResource("6_4mrxx")
+
+[node name="Control" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CountdownLabel" type="Label" parent="HUD/Control/CenterContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/Control"]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="HUD/Control/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="LapLabel" type="Label" parent="HUD/Control/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="HUD/Control/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Car" parent="." groups=["car"] instance=ExtResource("8_4mrxx")]
