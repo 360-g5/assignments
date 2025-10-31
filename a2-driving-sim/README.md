@@ -17,8 +17,8 @@ COMP 360 ON1 Assignments
 #### Ramp + Boost 
 - Aniket Sandhu
 
-#### Feature: 
-- TBD
+#### Rain: 
+- Fahim Ar-Rashid
 
 #### Feature: 
 - TBD
@@ -28,9 +28,11 @@ COMP 360 ON1 Assignments
 
 #### Document debugging/testing with video or wiki
 - Sho Okano, [Track generation process (wiki page)](https://github.com/360-g5/assignments/wiki/Sho-%E2%80%90-Track-generation-process)
+- Fahim Ar-Rashid Rain Particles-(wiki page)-https://github.com/360-g5/assignments/wiki/%E2%80%9CParticles-won%E2%80%99t-go-beyond-the-map-WIKI-.%E2%80%9D
 
 #### Test & review pull requests
 - Sho Okano
+- Fahim Ar-Rashid
 
 #### Update project documentation (README.md, kanban board, discord)
 - Sho Okano
