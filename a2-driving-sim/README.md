@@ -17,8 +17,8 @@ COMP 360 ON1 Assignments
 #### Ramp + Boost 
 - Aniket Sandhu
 
-#### Feature: 
-- TBD
+#### Rain: 
+- Fahim Ar-Rashid
 
 #### Feature: 
 - TBD
