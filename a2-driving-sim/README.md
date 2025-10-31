@@ -32,6 +32,7 @@ COMP 360 ON1 Assignments
 
 #### Test & review pull requests
 - Sho Okano
+- Fahim Ar-Rashid
 
 #### Update project documentation (README.md, kanban board, discord)
 - Sho Okano
