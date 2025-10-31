@@ -17,9 +17,6 @@ COMP 360 ON1 Assignments
 #### Ramp + Boost 
 - Aniket Sandhu
 
-#### Rain: 
-- Fahim Ar-Rashid
-
 #### Lighting: 
 - Pragti Duggal implemented the lighting setup in the project to enhance the overall visibility and realism of the racing environment. A DirectionalLight3D was added to simulate sunlight, providing consistent illumination across the track and car.
 - 
