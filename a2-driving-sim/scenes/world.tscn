@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://do5kyv4mx8gks"]
+[gd_scene load_steps=11 format=3 uid="uid://do5kyv4mx8gks"]
 
 [ext_resource type="Script" uid="uid://dkvjj525x38gr" path="res://scripts/main.gd" id="1_qfnet"]
 [ext_resource type="PackedScene" uid="uid://2los6sjctqyv" path="res://scenes/landscape.tscn" id="2_71j4m"]
@@ -7,6 +7,19 @@
 [ext_resource type="Script" uid="uid://cgl5yhvdv0fmb" path="res://scripts/hud.gd" id="6_4mrxx"]
 [ext_resource type="Script" uid="uid://ci3ovhqchd178" path="res://scripts/DebugMesh.gd" id="6_e3hyu"]
 [ext_resource type="PackedScene" uid="uid://ctk7gwv8q4obv" path="res://scenes/car.tscn" id="8_4mrxx"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i7141"]
+sky_top_color = Color(0.415686, 0.686275, 0.901961, 1)
+sky_horizon_color = Color(0.973258, 0.510506, 0.222349, 1)
+energy_multiplier = 1.2
+
+[sub_resource type="Sky" id="Sky_4mrxx"]
+sky_material = SubResource("ProceduralSkyMaterial_i7141")
+
+[sub_resource type="Environment" id="Environment_7r4gi"]
+background_mode = 2
+sky = SubResource("Sky_4mrxx")
+tonemap_exposure = 1.1
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_qfnet")
@@ -60,3 +73,12 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Car" parent="." groups=["car"] instance=ExtResource("8_4mrxx")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.992568, 0.119953, -0.020475, -0.119411, 0.992507, 0.0259067, 0.0234292, -0.0232692, 0.999455, -13.0145, 146.669, 13.2094)
+light_color = Color(1, 0.952941, 0.831373, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="Sky" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7r4gi")
